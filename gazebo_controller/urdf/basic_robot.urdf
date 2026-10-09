@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot name="basic_robot">
+  <material name="chassis_grey"><color rgba="0.6 0.6 0.6 1.0"/></material>
+  <material name="wheel_blue"><color rgba="0.0 0.0 1.0 1.0"/></material>
+  <material name="wheel_red"><color rgba="1.0 0.0 0.0 1.0"/></material>
+  <material name="dome_green"><color rgba="0.0 0.8 0.0 1.0"/></material>
+
+  <link name="chassis">
+    <visual><geometry><box size="0.825 0.825 0.075"/></geometry><material name="chassis_grey"/></visual>
+    <collision><geometry><box size="0.825 0.825 0.075"/></geometry></collision>
+    <inertial><mass value="5.0"/><inertia ixx="0.28594" ixy="0.0" ixz="0.0" iyy="0.28594" iyz="0.0" izz="0.56719"/></inertial>
+  </link>
+
+  <link name="left_wheel">
+    <visual><geometry><cylinder radius="0.4" length="0.05"/></geometry><material name="wheel_blue"/></visual>
+    <collision><geometry><cylinder radius="0.4" length="0.05"/></geometry></collision>
+    <inertial><mass value="0.5"/><inertia ixx="0.02010" ixy="0.0" ixz="0.0" iyy="0.02010" iyz="0.0" izz="0.04"/></inertial>
+  </link>
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="chassis"/><child link="left_wheel"/>
+    <origin xyz="0 0.4375 0" rpy="-1.5707963 0 0"/><axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="right_wheel">
+    <visual><geometry><cylinder radius="0.4" length="0.05"/></geometry><material name="wheel_red"/></visual>
+    <collision><geometry><cylinder radius="0.4" length="0.05"/></geometry></collision>
+    <inertial><mass value="0.5"/><inertia ixx="0.02010" ixy="0.0" ixz="0.0" iyy="0.02010" iyz="0.0" izz="0.04"/></inertial>
+  </link>
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="chassis"/><child link="right_wheel"/>
+    <origin xyz="0 -0.4375 0" rpy="-1.5707963 0 0"/><axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="lidar_dome">
+    <visual><geometry><sphere radius="0.03125"/></geometry><material name="dome_green"/></visual>
+    <collision><geometry><sphere radius="0.03125"/></geometry></collision>
+    <inertial><mass value="0.05"/><inertia ixx="0.0000195" ixy="0.0" ixz="0.0" iyy="0.0000195" iyz="0.0" izz="0.0000195"/></inertial>
+  </link>
+  <joint name="lidar_dome_joint" type="fixed">
+    <parent link="chassis"/><child link="lidar_dome"/><origin xyz="0.3 0 0.0375" rpy="0 0 0"/>
+  </joint>
+</robot>
