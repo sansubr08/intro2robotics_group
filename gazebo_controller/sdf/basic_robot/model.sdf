@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+ 	
+  <model name="basic_robot">
+    <!-- Chassis -->
+    <link name="chassis">
+
+      <inertial>
+        <mass>5.0</mass>
+        <inertia>
+          <ixx>0.30</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.30</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.30</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="chassis_visual">
+        <geometry>
+          <box>
+            <size>0.825 0.825 0.075</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="chassis_collision">
+        <geometry>
+          <box>
+            <size>0.825 0.825 0.075</size>
+          </box>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <!-- Left Wheel -->
+    <link name="left_wheel">
+
+      <pose relative_to="chassis">
+        0 0.4375 0 -1.57079 0 0
+      </pose>
+
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.043333</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.043333</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.08</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="left_wheel_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.4</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0 0 1 1</ambient>
+          <diffuse>0 0 1 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="left_wheel_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.4</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <!-- Right Wheel -->
+    <link name="right_wheel">
+
+      <pose relative_to="chassis">
+        0 -0.4375 0 -1.57079 0 0
+      </pose>
+
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.043333</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.043333</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.08</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="right_wheel_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.4</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="right_wheel_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.4</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <!-- LiDAR -->
+    <link name="lidar_dome">
+
+      <pose relative_to="chassis">
+        0.3 0 0.03125 0 0 0
+      </pose>
+
+      <inertial>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="lidar_visual">
+        <geometry>
+          <sphere>
+            <radius>0.03125</radius>
+          </sphere>
+        </geometry>
+
+        <material>
+          <ambient>0 1 0 1</ambient>
+          <diffuse>0 1 0 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="lidar_collision">
+        <geometry>
+          <sphere>
+            <radius>0.03125</radius>
+          </sphere>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <joint name="chassis_to_left_wheel" type="revolute">
+      <parent>chassis</parent>
+      <child>left_wheel</child>
+
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1000000</lower>
+          <upper>1000000</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name="chassis_to_right_wheel" type="revolute">
+      <parent>chassis</parent>
+      <child>right_wheel</child>
+
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1000000</lower>
+          <upper>1000000</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name="chassis_to_lidar_dome" type="fixed">
+      <parent>chassis</parent>
+      <child>lidar_dome</child>
+    </joint>
+
+    <!-- Differential Drive -->
+
+    <plugin filename="gz-sim-diff-drive-system"
+            name="gz::sim::systems::DiffDrive">
+
+      <left_joint>chassis_to_left_wheel</left_joint>
+      <right_joint>chassis_to_right_wheel</right_joint>
+
+      <wheel_separation>0.875</wheel_separation>
+      <wheel_radius>0.4</wheel_radius>
+
+      <topic>/cmd_vel</topic>
+
+      <odom_topic>/odom</odom_topic>
+      <odom_publish_frequency>50</odom_publish_frequency>
+
+      <tf_topic>/tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>chassis</child_frame_id>
+
+    </plugin>
+
+    <!-- Joint States -->
+
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+
+      <joint_name>chassis_to_left_wheel</joint_name>
+      <joint_name>chassis_to_right_wheel</joint_name>
+
+    </plugin>
+
+  </model>
+
+</sdf>
