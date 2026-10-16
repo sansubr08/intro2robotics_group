@@ -38,7 +38,7 @@ class pid_sim(Node):
         self.prev_y = 0.0
 
         # PID Controller Inputs
-        self.kp = 1.4
+        self.kp = 0.2
         self.ki = 0.0
         self.kd = 0.2
 

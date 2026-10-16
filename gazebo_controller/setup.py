@@ -13,8 +13,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name), glob('launch/*.launch.py')),
-        (os.path.join('share', package_name, 'sdf'),glob('sdf/*.sdf')),
-        (os.path.join('share', package_name, 'models', 'basic_robot'), ['sdf/basic_robot/model.sdf','sdf/basic_robot/model.config']),
+        (os.path.join('share', package_name, 'models', 'basic_robot'), ['models/basic_robot/model.sdf','models/basic_robot/model.config']),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
 
     ],
