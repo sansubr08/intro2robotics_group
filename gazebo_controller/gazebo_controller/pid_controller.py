@@ -36,13 +36,16 @@ class pid_sim(Node):
         self.goal_pose_y = 0.0
         self.prev_x = 0.0
         self.prev_y = 0.0
-
+        self.goal_received = False
+        
         # PID Controller Inputs
         self.kp = 0.2
         self.ki = 0.0
         self.kd = 0.2
 
     def timer_callback(self):
+        if not self.goal_received:
+            return
         try:
             when = rclpy.time.Time()
             # Get current position
@@ -72,6 +75,7 @@ class pid_sim(Node):
         # From lecture, only need position information, not concerned over heading right now. 2D, so only need x/y
         self.goal_pose_x = msg.pose.position.x
         self.goal_pose_y = msg.pose.position.y
+        self.goal_received = True
         
     def pidControl(self,x,y,theta):
         # Add offset l to get xp and yp
