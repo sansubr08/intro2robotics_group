@@ -169,7 +169,7 @@
         </axis>
       </joint>
 
-      <joint name='caster_wheel' type='ball'>
+      <joint name='caster_wheel' type='fixed'>
         <parent>chassis</parent>
         <child>caster</child>
       </joint>
