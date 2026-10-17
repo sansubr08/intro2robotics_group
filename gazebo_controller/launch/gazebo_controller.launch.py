@@ -11,7 +11,7 @@ def generate_launch_description():
     pkg_share = FindPackageShare('gazebo_controller').find('gazebo_controller')
     bridge_yaml = os.path.join(pkg_share,'config','ROS_to_GAZEBO.yaml')
     sdf_file = os.path.join(pkg_share,'models','basic_robot','model.sdf')
-    world_file = os.path.join(pkg_share, 'sdf','empty_world.sdf')
+    world_file = os.path.join(pkg_share, 'world','empty_world.sdf')
     
     with open(sdf_file, 'r') as infp:
         robot_description = infp.read()

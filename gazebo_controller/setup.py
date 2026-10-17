@@ -15,6 +15,7 @@ setup(
         (os.path.join('share', package_name), glob('launch/*.launch.py')),
         (os.path.join('share', package_name, 'models', 'basic_robot'), ['models/basic_robot/model.sdf','models/basic_robot/model.config']),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
+        (os.path.join('share', package_name, 'world'), glob('world/*.sdf')),
 
     ],
     install_requires=['setuptools'],
